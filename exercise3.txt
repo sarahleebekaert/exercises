@@ -1,0 +1,17 @@
+UNF: Medical_info (PatientNo, FullName, WardNo, WardName, DrugNo, Name, Description, Dosage, Method, Units, Start, Finish) 
+
+1NF: 	Patient_ID (PatientNO, Full Name) 
+	Ward_ID (WardNo, WardName) 
+	Drug_ID (DrugNo, Name, Description, Dosage, Method) 
+	Treatment (PatientNo, DrugNo, Units, Start, Finish) 
+
+2NF: 	Patient_ID (PatientNo, Full Name) 
+	Ward_ID (WardNo, WardName) 
+	Drug_ID (DrugNo, Name, Dosage) 
+	Name_ID (Name, Description, Method) 
+	Treatment_ID (PatientNo, DrugNo, Units) 
+	Units_ID (Units, Start, Finish) 
+
+3NF = 2NF 
+
+BCNF = 3NF 
