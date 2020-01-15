@@ -1,0 +1,14 @@
+Normalize to BCNF 
+UNF: patientdata(staffNo, dentistName, patientNo, patientName, appDate, Time, surgeryNo) 
+	Primary Key: staffNo, patientNo 
+
+1NF: 	dentist_ID(staffNo, dentistName) 
+	patient_ID (patientNo, patientName, appDate, Time, surgeryNo)
+
+2NF: 	dentist_ID(staffNo, dentistName) 
+	patient_ID (patientNo, patientName, appDate, Time) 
+	location_ID (Time, surgeryNo) 
+
+3NF = 2NF 
+
+BCNF = 3NF 
