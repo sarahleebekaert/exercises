@@ -1,0 +1,21 @@
+1. seq region 32889000 to 32891000 human chromosome 13 in FASTA -> check 
+	$ curl 'http://rest.ensembl.org/sequence/region/human/13:32889000..32891000' -H "Content-type:text/x-fasta"
+
+1.B hard mask: $ curl 'http://rest.ensembl.org/sequence/region/human/13:32889000..32891000:1?mask=hard' -H "Content-type:text/x-fasta"
+
+1.C repeated regions: $ curl 'http://rest.ensembl.org/feature/region/human/13:32889000..32891000?feature=repeat' -H "Content-type:text/x-fasta"
+
+2. Get an ID from the human CCR5 receptor gene (ENSG00000160791) ->check
+	$ curl 'http://rest.ensembl.org/xrefs/symbol/homo_sapiens/CCR5?object=gene' -H "Content-type: text/xml" 
+
+3. Find orthologous for this gene in chimpanzee -> check
+	$ curl 'http://rest.ensembl.org/homology/id/ENSG00000160791?target_species=chimpanzee' -H "Content-type: text/xml" 
+
+4. retrieve the genomic FASTA for ENST00000001146 -> check! 
+	$ curl 'http://rest.ensembl.org/sequence/id/ENST00000001146?type=genomic' -H "Content-type:text/x-fasta"
+
+5. return archived sequences for ENSG00000002587 and ENSG00000003056 -> check! 
+	$ curl 'http://rest.ensembl.org/archive/id' -H "Content-type:application/json" -H "Accept:application/json" -X POST -d '{"id": ["ENSG00000002587", "ENSG00000003056"]}'
+
+6. get a sequence from 250 nucleotides locatated on human chr 7, start 35182 -> check
+	$ curl 'http://rest.ensembl.org/sequence/region/human/7:35182..35431:1' -H "Content-type:text/plain"
