@@ -1,0 +1,78 @@
+1. retrieve the name, city, GPA > = 3.7 
+	> select stdFirstName, stdLastName, stdCity, stdGPA from student where stdGPA >= 3.7
+
+2. list the name and hiring date of faculty hired in 1990 or 2000
+	> select FacFirstName, FacLastName, FacHireDate from faculty where FacHireDate between "1990-01-01" and "1990-12-31" or FacHireDate between "2000-01-01" and "2000-12-31" ;
+
+3. list offer number, course number and faculty social security number for courses in fall 2005 or winter 2006
+
+	> select * from offering where (OffTerm="FALL" and OffYear=2005) or (OffTerm="WINTER" and OffYear=2006) ;
+
+4. List the offering number, course number, days and time of offering containing words database or programming and taught in spring 2006 
+	> offering number, offtime and days: offering 
+	> description : course 
+
+	> select OfferNo, course.CourseNo, OffTime, OffDays, crsDesc from course join offering on course.CourseNo = offering.CourseNo where REGEXP_LIKE(crsDesc, "DATABASE") or REGEXP_LIKE(crsDesc, "PROGRAMMING") ;
+
+5. list the offer number, courseNo, name Istructur of IS course in Fall 2005 taught by assistant professor 		
+	> offNo, courseNo (IS), Offterm and Offyear : offering 
+	> FacRank : faculty 
+	> primary key: FacSSN 
+
+	> select OfferNo, CourseNo, OffTerm, OffYear, FacFirstName, FacLastName from faculty join offering on faculty.FacSSN = offering.FacSSN where OffTerm="FALL" and OffYear=2005 and FacRank="ASST" and REGEXP_like(CourseNO, "IS") ;
+
+6. summarize the average GPA of students per major 
+	> GPA and major: student 
+	
+	> select stdMajor, avg(stdGPA) from student group by stdMajor ; 
+
+7. summarize number of offerings and unique courses by year 
+	> unique courses: course 
+	> offerings and year: offering 
+
+	> select course.CourseNo, count(OfferNo) from offering join course on offering.CourseNo = course.CourseNo group by course.CourseNo ;
+
+8. summarize avg GPA of junior or senior sts by major. Only list major with GPA > 3.1 
+	> GPA, Major, stdClass: student 
+
+	> select stdMajor, stdClass, avg(stdGPA) from student where stdGPA > 3.1 and (stdClass="JR" or stdClass="SR") group by stdMajor, stdClass; 
+
+9. Summarize min and max GPA of students by major and class 
+	> select stdMajor, stdClass, min(stdGPA), max(stdGPA) from student group by stdMajor, stdClass ; 
+
+10. Summarize the number of IS course offering by course description 
+	> select crsDesc, count(offering.CourseNo) from offering join course on offering.CourseNo = course.CourseNo group by crsDesc ; 
+
+11. list the GPA, name, city, state of JR, lowest GPA first 
+	> select stdFirstName, stdLastName, stdCity, stdState, stdGPA from student where stdClass="JR" order by stdGPA DESC ; 
+
+12. list the unique city and state combination in the faculty table 
+	> select distinct FacCity, FacState from faculty order by FacCity ; 
+
+13. list student name, offering number, grade of studens >= 3.5 in a course offering 
+	> OfferNo: offering 
+	> std name and stdSSN: student 
+	> EnrGrade, OfferNo, StdSSN: enrollment 
+	
+	> select stdFirstName, stdLastName, OfferNo, EnrGrade from enrollment join student on enrollment.StdSSN = student.stdSSN where EnrGrade >= 3.5 ; 
+	
+14. same as 13 but with no duplications in names 
+	> select stdFirstName, stdLastName from enrollment join student on enrollment.StdSSN = student.stdSSN where EnrGrade >= 3.5 group by stdFirstName, stdLastName; 
+	
+15. list Bob's course schedule in spring 2006. For each course, list OfferNo, CourseNo, days, location, time and faculty name 
+	> Bob is stdName -> stdSSN 
+	> OffTerm, courseNo, OffYear, OffNo, OffLocation, OffTime -> offering 
+	> stdSSN -> Bob (student) en in enrollment en OfferNo 
+
+	> select offering.OfferNo, CourseNo, OffDays, OffLocation, OffTime, FacDept from enrollment join student on enrollment.stdSSN = student.stdSSN join offering on enrollment.OfferNo = offering.OfferNo join faculty on offering.FacSSN = faculty.FacSSN 
+where stdFirstName="BOB" and stdLastName="NORBERT" and OffTerm="SUMMER" and OffYear=2006;  
+
+	> select stdFirstName, stdLastName, student.stdSSN from enrollment join student on enrollment.stdSSN = student.stdSSN where stdFirstName="BOB" ; 
+
+
+
+
+
+
+
+
